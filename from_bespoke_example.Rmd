@@ -46,7 +46,7 @@ plot1 <- df %>%
   facet_wrap(~ category)
 plot1
 ```
-
+The above is good, but the `geom_vline` and `geom_hline` functions fake out the `facet_wrap` function.  Solve this by first building the basic plot, then use `gghighlight`, then `facet_wrap`, then add back the v and h.  This problem is progressively solved below.
 
 ```{r}
 plot1
@@ -102,7 +102,7 @@ gg +
   )
 ```
 
-
+Deconstructing Cedric's code, I have simplified some elements, for my clarifying benefit.  
 
 ```{r fig.height=10, fig.width=10}
 df %>% 
