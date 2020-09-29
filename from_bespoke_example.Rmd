@@ -24,7 +24,7 @@ df %>%
   geom_line() +
   geom_point() +
   gghighlight(
-    change[which(id == 15)] < -50
+    change[which(id == 15)] < -50   # filter(id == 15, change < -50)
   ) +
   theme_bw() +
   rcartocolor::scale_colour_carto_d() #+
@@ -41,6 +41,7 @@ plot1 <- df %>%
   gghighlight(
     change[which(id == 15)] < -50
   ) +
+  # gghighlight(change < - 50) +
   theme_bw() +
   rcartocolor::scale_colour_carto_d() +
   facet_wrap(~ category)
@@ -51,7 +52,7 @@ The above is good, but the `geom_vline` and `geom_hline` functions fake out the 
 ```{r}
 plot1
 ```
-```{r}
+```{r fig.height=7, fig.width=10}
 gg <-
   ggplot(df, aes(id, change, color = category)) +
     geom_point() +
@@ -139,5 +140,19 @@ df %>%
 
 
 
+```
+
+```{r}
+df %>% 
+  ggplot(aes(id, change, group = category, color = category)) +
+  geom_line() +
+  geom_point(size = 1) +
+  geom_hline(yintercept = 0, color = "grey40") +
+  geom_vline(xintercept = 10, color = "grey40", linetype = "dashed") +
+  geom_area(data = . %>% filter(category == "Groceries"), alpha = .3) +
+  gghighlight(category == "Groceries",
+      use_direct_label = TRUE,
+      unhighlighted_params = list(color = "grey70", size = .5)) +
+  guides(color = FALSE)
 ```
 
